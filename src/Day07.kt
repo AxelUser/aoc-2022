@@ -7,34 +7,25 @@ fun main() {
         val dirs = mutableMapOf<String, Int>()
         dirs["/"] = 0
         stack.push("/")
-        var i = 1
-        while (i <= lastIndex) {
-            if (this[i][0] == '$') {
-                val cmd = this[i].substring(2..this[i].lastIndex).split(' ')
-                when (cmd[0]) {
-                    "cd" -> {
-                        when (cmd[1]) {
-                            ".." -> stack.pop()
-                            else -> stack.push("${stack.peek()}${cmd[1]}/")
-                        }
-                        i++
+        for (i in 1..lastIndex) {
+            val line = this[i].split(' ')
+            when (line[0]) {
+                "$" -> when (line[1]) {
+                    "cd" -> when (line[2]) {
+                        ".." -> stack.pop()
+                        else -> stack.push("${stack.peek()}${line[2]}/")
                     }
+                }
 
-                    "ls" -> {
-                        var j = i + 1
-                        while (j <= lastIndex && this[j][0] != '$') {
-                            val f = this[j++].split(' ')
-                            when (f[0]) {
-                                "dir" -> dirs["${stack.peek()}${f[1]}/"] = 0
-                                else -> {
-                                    val size = f[0].toInt()
-                                    stack.forEach {
-                                        dirs[it] = dirs[it]!! + size
-                                    }
-                                }
-                            }
-                        }
-                        i = j
+                "ls" -> {}
+                "dir" -> {
+                    dirs["${stack.peek()}${line[1]}/"] = 0
+                }
+
+                else -> {
+                    val size = line[0].toInt()
+                    stack.forEach {
+                        dirs[it] = dirs[it]!! + size
                     }
                 }
             }
