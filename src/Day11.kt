@@ -31,27 +31,6 @@ fun main() {
         return res
     }
 
-    fun gcd(a: Long, b: Long): Long {
-        var ta = a
-        var tb = b
-        while (tb > 0) {
-            val t = tb
-            tb = ta % tb
-            ta = t
-        }
-        return ta
-    }
-
-    fun lcm2(a: Long, b: Long): Long {
-        return a * (b / gcd(a, b))
-    }
-
-    fun lcm(ls: LongArray): Long {
-        var res = ls[0]
-        for (i in 1..ls.lastIndex) res = lcm2(res, ls[i])
-        return res
-    }
-
     fun solve(monkeys: List<Monkey>, rounds: Int, lower: (v: Long) -> Long): Long {
         val stats = LongArray(monkeys.size)
         repeat(rounds) {
@@ -78,7 +57,7 @@ fun main() {
 
     fun part2(input: List<String>): Long {
         val monkeys = input.monkeys()
-        val modulo = lcm(monkeys.map { it.test }.toLongArray())
+        val modulo = monkeys.map { it.test }.fold(1L) { acc, el -> acc * el }
         return solve(monkeys, 10000) { it % modulo}
     }
 
