@@ -1,6 +1,6 @@
 import java.util.*
 
-private data class Point(val coords: Pair<Int, Int>, val elevation: Int)
+private data class Day12Point(val coords: Pair<Int, Int>, val elevation: Int)
 
 fun main() {
 
@@ -22,8 +22,8 @@ fun main() {
 
     fun List<IntArray>.bfs(start: Pair<Int, Int>, end: Pair<Int, Int>): Int {
         val dirs = listOf(0, 1, 0, -1, 0)
-        val queue: Queue<Point> = LinkedList()
-        queue.offer(Point(start, this[start.first][start.second]))
+        val queue: Queue<Day12Point> = LinkedList()
+        queue.offer(Day12Point(start, this[start.first][start.second]))
         this[start.first][start.second] = Int.MAX_VALUE
 
         var steps = 0
@@ -39,7 +39,7 @@ fun main() {
                 val next = dirs.windowed(2).map { coords.first + it[0] to coords.second + it[1] }
                     .filter { it.first in 0..lastIndex && it.second in 0..this[0].lastIndex && elevationOf(it) <= elevation + 1 }
                 for (p in next) {
-                    queue.offer(Point(p, elevationOf(p)))
+                    queue.offer(Day12Point(p, elevationOf(p)))
                     this[p.first][p.second] = Int.MAX_VALUE
                 }
             }
