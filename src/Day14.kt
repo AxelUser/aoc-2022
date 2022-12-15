@@ -1,7 +1,7 @@
 fun main() {
 
-    fun List<String>.getStones(): Set<Point> {
-        val map = mutableSetOf<Point>()
+    fun List<String>.getStones(): Set<Point<Int>> {
+        val map = mutableSetOf<Point<Int>>()
         for (path in this.map { it.split("->").map { it.trim().split(",").let { (x, y) -> Point(y.toInt(), x.toInt()) } } }) {
             for ((from, to) in path.windowed(2)) {
                 val points = if (from.y == to.y) {
@@ -16,7 +16,7 @@ fun main() {
         return map
     }
 
-    fun Map<Point, Char>.simulate(start: Point, imaginaryFloor: Int): Point {
+    fun Map<Point<Int>, Char>.simulate(start: Point<Int>, imaginaryFloor: Int): Point<Int> {
         var current = start
         while (true) {
             val next = arrayOf(

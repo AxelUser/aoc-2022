@@ -29,4 +29,4 @@ fun List<String>.split(): List<List<String>> {
     return splits
 }
 
-data class Point(val y: Int, val x: Int)
+data class Point<T>(val y: T, val x: T)
